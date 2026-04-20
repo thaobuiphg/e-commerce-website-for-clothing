@@ -1,0 +1,78 @@
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    color: #333;
+    background-color: #f5f5f5;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+.tieude {
+    margin-bottom: 30px;
+    text-align: center;
+}
+.tieude h1 {
+    font-size: 28px;
+    text-transform: uppercase;
+    display: inline;
+    color: #222;
+}
+.tieude span {
+    font-size: 18px;
+    color: #888;
+    margin-left: 5px;
+}
+.tieude p {
+    font-size: 16px;
+    color: #666;
+    margin: 15px 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.tabs a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.tabs a:hover {
+    background-color: #ff6200;
+    color: #fff;
+}
+.sort {
+    text-align: right;
+    margin-bottom: 20px;
+}
+.sort select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
+.products {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+.tieude h1{
+    color: #473202;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 50px;
+    letter-spacing: 5px;
+}

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="giohang.css">
+    <link rel="stylesheet" href="xemchitiet.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="sp.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo"><a href="index.html"><img src="logo.jpg" alt="Logo"></a></div>
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+            <button>Tìm kiếm</button>
+            <div class="search-keywords">Từ khóa:
+                <a href="#">Chân váy</a><a href="#">Áo</a><a href="#">Set</a><a href="#">Đầm</a>
+            </div>
+        </div>
+        <div class="user-actions">
+            <a href="#" id="userAccount" onclick="goToLogin()"><img src="icon3.jpg" alt=""> Tài khoản</a>
+            <a href="#" class="cart-toggle" onclick="toggleCart()"><img src="icon2.png" alt=""> Giỏ hàng</a>
+        </div>
+    </header>
+
+    <!-- Overlay giỏ -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-header">
+            <h2>GIỎ HÀNG</h2>
+            <button onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-content" id="cartContent"></div>
+        <div class="cart-footer">
+            <p>Tổng thanh toán: <span id="sum">0</span></p>
+            <button onclick="goToThanhToan()">MUA NGAY</button>
+        </div>
+    </div>
+
+    <menu>
+        <div class="navbar">
+            <a href="index.html">TRANG CHỦ</a>
+            <a href="gioithieu.html">Giới thiệu</a>
+            <div class="dropdown">
+                <a href="#">Danh mục</a>
+                <div class="dropdown-content-1">
+                    <a href="category.html?category=best-seller">Best seller</a> 
+                    <a href="category.html?category=vay-ngan">Váy ngắn</a>
+                    <a href="category.html?category=vay-dai">Váy dài</a>
+                    <a href="category.html?category=ao">Áo</a>
+                    <a href="category.html?category=chan-vay">Chân váy</a>
+                    <a href="category.html?category=set-bo">Set bộ</a>
+                </div>
+            </div>
+            <a href="spgiamgia.html" class="sale">UP TO 50%</a>
+            <div class="dropdown">
+                <a href="#">Bộ sưu tập</a>
+                <div class="dropdown-content">
+                    <!-- Bộ sưu tập sẽ được thêm động bởi JavaScript -->
+                </div>
+            </div>
+            <a href="tintuc.html">Tin tức</a>
+            <a href="lienhe.html">Liên hệ</a>
+        </div>
+    </menu>
+
+    <!-- Chi tiết sản phẩm -->
+    <div class="container">
+        <div class="product-image">
+            <img id="productImage" src="" alt="">
+        </div>
+        <div class="product-details">
+            <h1 id="productName"></h1>
+            <p class="info">Thương hiệu: COT | Mã sản phẩm: <span id="productCode"></span></p>
+            <p id="productPrice" class="price" data-price="0"></p>
+
+            <div class="promotion">
+                <h4>KHUYẾN MÃI</h4>
+                <ul>
+                    <li>SIÊU SALE CHÀO HÈ - ƯU ĐÃI ĐẾN 50%</li>
+                    <li>Set váy cho mùa hè này!</li>
+                    <li>Giảm 10 - 50%++ váy</li>
+                    <li>Freeship cho đơn hàng từ 500K</li>
+                    <li>Số lượng sản phẩm chính hãng - Nhận thay sẵn ngay!</li>
+                </ul>
+            </div>
+
+            <!-- Chi tiết sản phẩm -->
+            <div class="product-details-section">
+                <h4>Thông tin chi tiết</h4>
+                <p><strong>Mô tả:</strong> <span id="productDescription"></span></p>
+                <p><strong>Xuất xứ:</strong> <span id="productOrigin">Việt Nam</span></p>
+                <p><strong>Hướng dẫn bảo quản:</strong> <span id="productCare">Giặt máy ở nhiệt độ thấp, không dùng chất
+                        tẩy mạnh.</span></p>
+            </div>
+
+            <!-- Size -->
+            <div class="mb-3">
+                <label class="form-label">Size:</label>
+                <div class="size-option">
+                    <input type="radio" id="sizeS" name="size" value="S"><label for="sizeS">S</label>
+                    <input type="radio" id="sizeM" name="size" value="M"><label for="sizeM">M</label>
+                    <input type="radio" id="sizeL" name="size" value="L"><label for="sizeL">L</label>
+                    <input type="radio" id="sizeXL" name="size" value="XL"><label for="sizeXL">XL</label>
+                    <br><br>
+                </div>
+            </div>
+
+            <!-- Số lượng -->
+            <div class="qty-row">
+                <span class="qty-label">Số Lượng:</span>
+                <div class="qty-group">
+                    <button type="button" class="qty-minus" onclick="updateQuantity(-1)" aria-label="Giảm">−</button>
+                    <input id="qtyInput" type="number" value="1" min="1" aria-label="Số lượng">
+                    <button type="button" class="qty-plus" onclick="updateQuantity(1)" aria-label="Tăng">+</button>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button class="add-to-cart" onclick="addToCart(product)">THÊM VÀO GIỎ</button>
+                <button class="buy-now" onclick="buyNow(product)">MUA NGAY</button>
+            </div>
+            <p class="contact">Gọi đặt mua / Zalo 0987654321 (9:00 - 17:00)</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="footer-column">
+            <h4>Thông tin liên hệ</h4>
+            <p>Địa chỉ: Thành phố Hà Nội</p>
+            <p>Số điện thoại: 0987654321</p>
+            <p>Email: cot@gmail.com</p>
+            <p>&copy; 2025 COT. All rights reserved.</p>
+        </div>
+        <div class="footer-column">
+            <h4>Chính Sách</h4>
+            <p><a href="#">Chính sách vận chuyển</a></p>
+            <p><a href="#">Chính sách đổi trả hàng</a></p>
+            <p><a href="#">Chính sách bảo mật thông tin</a></p>
+            <p><a href="#">Chính sách kiểm hàng</a></p>
+        </div>
+        <div class="footer-column">
+            <h4>Hỗ Trợ Khách Hàng</h4>
+            <p><a href="#">Giới thiệu</a></p>
+            <p><a href="#">Quy định chung</a></p>
+            <p><a href="#">Hệ thống cửa hàng</a></p>
+            <p><a href="#">Kiểm Tra Đơn Hàng</a></p>
+        </div>
+        <div>
+            <div class="social-icons">
+                <a href="#"><img src="icfooter1.webp" alt="Facebook"></a>
+                <a href="#"><img src="icfooter2.webp" alt="Zalo"></a>
+                <a href="#"><img src="icfooter3.webp" alt="TikTok"></a>
+            </div>
+            <div class="contact-icons">
+                <a href="#"><img src="iclienhe1.svg" alt="Zalo Chat"></a>
+                <a href="#"><img src="iclienhe2.svg" alt="Phone"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-logo">COT</p>
+        <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến phong cách hiện đại và thanh lịch cho phái đẹp.</p>
+    </div>
+
+    <!-- Script -->
+    <script src="giohang.js"></script>
+    <script src="search.js"></script>
+    <script src="main.js"></script>
+    <script>
+        // Lấy dữ liệu sản phẩm từ URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const product = JSON.parse(decodeURIComponent(urlParams.get('product')));
+        console.log('Product data:', product); // Debug
+
+        // Hiển thị thông tin sản phẩm
+        // document.getElementById('productImage').src = product.image_url || 'placeholder.jpg';
+        document.getElementById('productImage').src = toImgUrl(product.image_url);
+        //FALLBACK
+        document.getElementById('productImage').onerror = function() {
+            this.src = toImgUrl("/uploads/placeholder.png");
+        };
+        document.getElementById('productName').textContent = product.product_name || 'Tên không xác định';
+        document.getElementById('productPrice').innerHTML = `<p class="price">
+                ${product.price === product.price_promotion ?
+                `<span class="price-promotion">${formatCurrency(product.price)}đ</span>` :
+                `<span class="price-promotion">${formatCurrency(product.price_promotion)}đ</span>
+                     <span class="price-original">${formatCurrency(product.price)}đ</span>`
+            }
+            </p>`;
+        document.getElementById('productPrice').dataset.price = product.price || 0;
+        document.getElementById('productCode').textContent = `6688-${product.product_id || '0'}`;
+        document.getElementById('productDescription').textContent = product.detail;
+        function updateQuantity(change) {
+            const input = document.getElementById('qtyInput');
+            let currentValue = parseInt(input.value) || 1;
+            let newValue = currentValue + change;
+
+            // Không cho nhỏ hơn 1
+            if (newValue < 1) {
+                newValue = 1;
+            }
+
+            input.value = newValue;
+        }
+    </script>
+</body>
+
+</html>

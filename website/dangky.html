@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="dangky.css">
+    <link rel="stylesheet" href="sp.css">
+    <link rel="stylesheet" href="giohang.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="footer.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="logo.jpg" alt="Logo"></a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm...">
+            <button>Tìm kiếm</button>
+            <div class="search-keywords">
+                Từ khóa:
+                <a href="#">Chân váy</a>
+                <a href="#">Áo</a>
+                <a href="#">Set</a>
+                <a href="#">Đầm</a>
+            </div>
+        </div>
+        <div class="user-actions">
+            <a href="#" id="userLink"><img src="icon3.jpg" alt="User Icon"> <span id="userDisplay">Tài khoản</span></a>
+            <a href="#" class="cart-toggle"><img src="icon2.png" alt="Cart Icon"> Giỏ hàng</a>
+        </div>
+    </header>
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-header">
+            <h2>GIỎ HÀNG</h2>
+            <button onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-content"></div>
+        <div class="cart-footer">
+            <p>Tổng thanh toán: <span id="sum">0</span>đ</p>
+            <button onclick="goToThanhToan()">MUA NGAY</button>
+        </div>
+    </div>
+    <menu>
+        <div class="navbar">
+            <a href="index.html">TRANG CHỦ</a>
+            <a href="gioithieu.html">Giới thiệu</a>
+            <div class="dropdown">
+                <a href="#">Danh mục</a>
+                <div class="dropdown-content-1">
+                    <a href="category.html?category=vay-ngan">Váy ngắn</a>
+                    <a href="category.html?category=vay-dai">Váy dài</a>
+                    <a href="category.html?category=ao">Áo</a>
+                    <a href="category.html?category=chan-vay">Chân váy</a>
+                    <a href="category.html?category=set-bo">Set bộ</a>
+                </div>
+            </div>
+            <a href="spgiamgia.html" class="sale">UP TO 50%</a>
+            <div class="dropdown">
+                <a href="#">Bộ sưu tập</a>
+                <div class="dropdown-content">
+                    <!-- Bộ sưu tập sẽ được thêm động bởi JavaScript -->
+                </div>
+            </div>
+            <a href="tintuc.html">Tin tức</a>
+            <a href="lienhe.html">Liên hệ</a>
+        </div>
+    </menu>
+    <div class="login-container">
+        <h2>Đăng ký</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <input type="text" id="username" placeholder="Tên đăng nhập" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" placeholder="Mật khẩu" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password2" placeholder="Nhập lại mật khẩu" required>
+            </div>
+            <div class="form-group">
+                <select id="city" required>
+                    <option value="">Chọn thành phố</option>
+                    <option value="Ha Noi">Hà Nội</option>
+                    <option value="Ho Chi Minh">Hồ Chí Minh</option>
+                    <option value="Da Nang">Đà Nẵng</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select id="district" required>
+                    <option value="">Chọn quận/huyện</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" id="address_line" placeholder="Địa chỉ cụ thể (số nhà, đường, v.v.)" required>
+            </div>
+            <div class="form-group">
+                <input type="tel" id="phone" placeholder="Số điện thoại" pattern="[0-9]{10}" required>
+            </div>
+            <button type="submit">Đăng ký</button>
+            <a href="dangnhap.html" class="back-link">Quay lại đăng nhập</a>
+        </form>
+    </div>
+    <div class="footer">
+        <div class="footer-column">
+            <h4>Thông tin liên hệ</h4>
+            <p>Địa chỉ: Thành phố Hà Nội</p>
+            <p>Số điện thoại: 0987654321</p>
+            <p>Email: cot@gmail.com</p>
+            <p>&copy; 2025 COT. All rights reserved.</p>
+        </div>
+        <div class="footer-column">
+            <h4>Chính Sách</h4>
+            <p><a href="#">Chính sách vận chuyển</a></p>
+            <p><a href="#">Chính sách đổi trả hàng</a></p>
+            <p><a href="#">Chính sách bảo mật thông tin</a></p>
+            <p><a href="#">Chính sách kiểm hàng</a></p>
+        </div>
+        <div class="footer-column">
+            <h4>Hỗ Trợ Khách Hàng</h4>
+            <p><a href="#">Giới thiệu</a></p>
+            <p><a href="#">Quy định chung</a></p>
+            <p><a href="#">Hệ thống cửa hàng</a></p>
+            <p><a href="#">Kiểm Tra Đơn Hàng</a></p>
+        </div>
+        <div>
+            <div class="social-icons">
+                <a href="#"><img src="icfooter1.webp" alt="Facebook"></a>
+                <a href="#"><img src="icfooter2.webp" alt="Zalo"></a>
+                <a href="#"><img src="icfooter3.webp" alt="TikTok"></a>
+            </div>
+            <div class="contact-icons">
+                <a href="#"><img src="iclienhe1.svg" alt="Zalo Chat"></a>
+                <a href="#"><img src="iclienhe2.svg" alt="Phone"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-logo">COT</p>
+        <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến phong cách hiện đại và thanh lịch cho phái đẹp.</p>
+    </div>
+</body>
+<script src="giohang.js"></script>
+<script src="search.js"></script>
+<script src="main.js"></script>
+<script>
+    // Dữ liệu thành phố và quận/huyện (giả lập)
+    const cities = {
+        'Ha Noi': ['Ba Dinh', 'Hoan Kiem', 'Hai Ba Trung'],
+        'Ho Chi Minh': ['Quan 1', 'Quan 3', 'Quan 5'],
+        'Da Nang': ['Hai Chau', 'Thanh Khe', 'Son Tra']
+    };
+
+    // Cập nhật danh sách quận/huyện khi chọn thành phố
+    document.getElementById('city').addEventListener('change', function() {
+        const districtSelect = document.getElementById('district');
+        const city = this.value;
+        districtSelect.innerHTML = '<option value="">Chọn quận/huyện</option>';
+        if (city && cities[city]) {
+            cities[city].forEach(district => {
+                const option = document.createElement('option');
+                option.value = district;
+                option.textContent = district;
+                districtSelect.appendChild(option);
+            });
+        }
+    });
+
+    // Hiển thị tên người dùng hoặc liên kết mặc định
+    function updateUserDisplay() {
+        const username = localStorage.getItem('loggedInUser');
+        const userLink = document.getElementById('userLink');
+        const userDisplay = document.getElementById('userDisplay');
+        if (username) {
+            userDisplay.textContent = username;
+            userLink.href = '#';
+        } else {
+            userDisplay.textContent = 'Tài khoản';
+            userLink.href = 'dangnhap.html';
+        }
+    }
+
+    // Xử lý form đăng ký
+    document.getElementById('registerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const password2 = document.getElementById('password2').value;
+        const city = document.getElementById('city').value;
+        const district = document.getElementById('district').value;
+        const address_line = document.getElementById('address_line').value;
+        const phone = document.getElementById('phone').value;
+
+        if (password !== password2) {
+            alert('Mật khẩu không khớp!');
+            return;
+        }
+
+        if (!city || !district || !address_line || !phone) {
+            alert('Vui lòng điền đầy đủ thông tin địa chỉ và số điện thoại!');
+            return;
+        }
+
+        const userData = {
+            username: username,
+            email: email,
+            password: password,
+            role: 0 // Đặt role mặc định là 0 (Customer)
+        };
+
+        try {
+            console.log('Gửi dữ liệu user:', userData); // Debug
+            const userResponse = await fetch('http://localhost:3000/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
+            const userResult = await userResponse.json();
+            console.log('Phản hồi user:', userResult); // Debug
+            if (userResponse.ok) {
+                const userId = userResult.id; // Lấy user_id từ phản hồi
+
+                const addressData = {
+                    user_id: userId,
+                    city: city,
+                    district: district,
+                    address_line: address_line,
+                    phone: phone
+                };
+
+                console.log('Gửi dữ liệu địa chỉ:', addressData); // Debug
+                const addressResponse = await fetch('http://localhost:3000/api/addresses', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(addressData)
+                });
+
+                if (addressResponse.ok) {
+                    localStorage.setItem('loggedInUser', username);
+                    alert('Đăng ký thành công!');
+                    updateUserDisplay();
+                    window.location.href = 'index.html'; // Chuyển hướng sau khi đăng ký thành công
+                } else {
+                    const errorText = await addressResponse.text();
+                    console.error('Lỗi địa chỉ:', errorText); // Debug
+                    alert('Lỗi khi lưu địa chỉ: ' + errorText);
+                    // Xóa user vừa tạo nếu địa chỉ thất bại
+                    await fetch(`http://localhost:3000/api/users/${userId}`, { method: 'DELETE' });
+                }
+            } else {
+                alert('Đăng ký thất bại: ' + (userResult.message || 'Lỗi không xác định'));
+            }
+        } catch (error) {
+            console.error('Lỗi tổng quát:', error);
+            alert('Có lỗi xảy ra khi đăng ký: ' + error.message);
+        }
+    });
+
+    window.addEventListener('load', updateUserDisplay);
+</script>
+</html>

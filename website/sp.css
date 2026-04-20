@@ -1,0 +1,255 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+/* Section styling */
+.tieude {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.tieude h2 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+}
+.products{
+    padding-bottom: 40px;;
+}
+/* Product grid styling */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+/* Product card styling */
+.product-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.product-card img {
+    width: 100%;
+    height: 350px;
+    display: block;
+    background-color: #e0e0e0;
+    /* Background color for the image area */
+    padding: 20px;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin: 15px 15px 5px;
+    color: #333;
+}
+
+.product-card p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 5px 15px;
+}
+
+.product-card .price {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .newest-section h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .newest-section h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Style cho phần giá cả */
+.price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    /* Khoảng cách giữa giá khuyến mãi và giá gốc */
+    margin: 10px 0;
+    font-family: Arial, sans-serif;
+    /* Font dễ đọc */
+}
+
+.price-promotion {
+    color: #e63946;
+    /* Màu đỏ nổi bật cho giá khuyến mãi */
+    font-size: 24px;
+    /* Kích thước chữ lớn hơn */
+    font-weight: bold;
+    /* Đậm để thu hút */
+}
+
+.price-original {
+    color: #666;
+    /* Màu xám cho giá gốc */
+    font-size: 18px;
+    /* Kích thước nhỏ hơn giá khuyến mãi */
+    text-decoration: line-through;
+    /* Gạch ngang */
+    font-weight: normal;
+    /* Không đậm */
+}
+
+/* Tùy chỉnh khi hover (tùy chọn) */
+.price:hover .price-promotion {
+    color: #d62828;
+    /* Thay đổi màu khi hover để tạo hiệu ứng */
+}
+
+/* Đảm bảo tương thích với chế độ tối (nếu có) */
+@media (prefers-color-scheme: dark) {
+    .price-original {
+        color: #bbb;
+        /* Xám nhạt hơn trong chế độ tối */
+    }
+
+    .price-promotion {
+        color: #ff6b6b;
+        /* Đỏ nhạt hơn trong chế độ tối */
+    }
+}
+
+.a1 {
+    text-decoration: none;
+    color: black;
+}
+
+.product-card {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+}
+
+.cart-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.cart-overlay.active {
+    display: block;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.cart-item .item-details {
+    flex-grow: 1;
+}
+
+.cart-item .item-details p {
+    margin: 0;
+}
+
+.cart-item .remove-btn {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+}
+
+
+.tabs {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.tabs a {
+    text-decoration: none;
+    color: #555;
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+.tabs a:hover {
+    background-color: #ff6200;
+    color: #fff;
+}
+.sort {
+    text-align: right;
+    margin-bottom: 20px;
+}
+.sort select {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+}
+.tieude h1{
+    color: #473202;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 50px;
+    letter-spacing: 5px;
+}

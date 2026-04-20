@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.logo img {
+    height: 40px;
+}
+
+.breadcrumb {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.breadcrumb span {
+    color: #333;
+}
+
+.main-content form {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+
+.left-section {
+    flex: 0 0 60%;
+    padding-right: 20px;
+}
+
+.left-section h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.subtext {
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.subtext a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.form-group {
+    display: flex;
+    align-items: center; 
+    margin-bottom: 15px; 
+}
+
+.form-group label {
+    width: 100px;       
+    min-width: 120px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.form-group input {
+    flex: 1;           
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.address-group {
+    display: flex;
+    gap: 20px; 
+}
+
+.address-group .form-group {
+    flex: 1;
+}
+
+/* Responsive: Trên màn hình điện thoại nhỏ, nhãn sẽ nhảy lên trên input */
+@media (max-width: 600px) {
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .form-group label {
+        margin-bottom: 5px;
+    }
+    .address-group {
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+.address-group {
+    display: flex;
+    gap: 10px;
+}
+
+.address-group select {
+    flex: 1;
+}
+
+h3 {
+    font-size: 18px;
+    margin: 20px 0 10px;
+}
+
+.shipping-method,
+.payment-method {
+    margin-bottom: 10px;
+}
+
+.shipping-method input,
+.payment-method input {
+    margin-right: 10px;
+}
+
+.shipping-method label,
+.payment-method label {
+    font-size: 14px;
+}
+
+.submit-btn {
+    background-color: #473202;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.right-section {
+    flex: 0 0 40%;
+}
+
+.order-summary {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.order-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.order-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+}
+
+.order-details {
+    flex: 1;
+}
+
+.order-details p {
+    font-size: 14px;
+}
+
+.order-details .variant {
+    color: #666;
+    font-size: 12px;
+}
+
+.order-details .quantity {
+    background-color: #f5f5f5;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.price {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.discount-input {
+    display: flex;
+    gap: 10px;
+}
+
+.discount-input input {
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.discount-input button {
+    background-color: #ddd;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.total-price span {
+    color: #666;
+    font-size: 12px;
+}
+.price-promotion1 {
+    color: black;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.price-original1 {
+    color: #666;
+    font-size: 14px;
+    text-decoration: line-through;
+}

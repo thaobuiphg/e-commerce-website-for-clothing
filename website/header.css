@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #F0EDE6;
+    border-bottom: 1px solid #ddd;
+}
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo img {
+    width: 80px;
+    height: 60px;
+    margin-right: 10px;
+}
+.logo h1 {
+    font-size: 24px;
+    margin: 0;
+    color: #000;
+}
+.logo h1 span {
+    color: #ff6200;
+    font-style: italic;
+}
+.search-bar {
+    flex-grow: 1;
+    display: flex; /* Thêm flex để căn giữa */
+    justify-content: center; /* Căn giữa các phần tử con */
+    align-items: center;
+    position: relative;
+}
+.search-bar input {
+    width: 300px; 
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px 0 0 5px; 
+    font-size: 14px;
+}
+.search-bar button {
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-left: none; 
+    background-color: #ddd;
+    border-radius: 0 5px 5px 0; 
+    cursor: pointer;
+    font-size: 14px;
+}
+.search-keywords {
+    margin-top: 5px;
+    font-size: 12px;
+    color: #555;
+    position: absolute; /* Đặt position absolute để từ khóa nằm dưới ô tìm kiếm */
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%); /* Căn giữa từ khóa */
+    white-space: nowrap;
+    margin-top: 0;
+}
+.search-keywords a {
+    color: #000;
+    text-decoration: none;
+    margin: 0 5px;
+}
+.search-keywords a:hover {
+    text-decoration: underline;
+}
+.user-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.user-actions a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+.user-actions img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+#carouselExample {
+    width: 95vw;
+    /* 3/4 chiều rộng trình duyệt */
+    height: 75vh;
+    /* 2/3 chiều cao trình duyệt */
+    margin: 20px auto 0 auto;
+    /* căn giữa carousel */
+    border-radius: 20px;
+    /* bo góc cho toàn bộ khung */
+    overflow: hidden;
+    /* ẩn phần dư ngoài bo góc */
+}
+
+#carouselExample img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    /* ảnh vừa khung, có thể bị cắt nếu khác tỉ lệ */
+    border-radius: 20px;
+    /* bo góc cho ảnh nếu cần thêm */
+}

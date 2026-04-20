@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên hệ</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="giohang.css">
+    <link rel="stylesheet" href="gioithieu.css">
+    <link rel="stylesheet" href="footer.css">
+    <link rel="stylesheet" href="lienhe.css">
+    <link rel="stylesheet" href="sp.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+</head>
+    <script src="giohang.js"></script>
+    <script src="main.js"></script>
+    <script src="search.js"></script>
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="logo.jpg" alt="Logo"></a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm..." id="searchInput">
+            <button onclick="searchProducts()">Tìm kiếm</button>
+            <div class="search-keywords">
+                Từ khóa:
+                <a href="#" onclick="filterProducts('Chân váy')">Chân váy</a>
+                <a href="#" onclick="filterProducts('Áo')">Áo</a>
+                <a href="#" onclick="filterProducts('Set')">Set</a>
+                <a href="#" onclick="filterProducts('Đầm')">Đầm</a>
+            </div>
+        </div>
+        <div class="user-actions">
+            <a href="#" id="userAccount" onclick="goToLogin()"><img src="icon3.jpg" alt=""> Tài khoản</a>  
+            <a href="#" class="cart-toggle" onclick="toggleCart()"><img src="icon2.png" alt=""> Giỏ hàng</a>
+        </div>
+    </header>
+
+    <!-- Overlay giỏ -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-header">
+            <h2>GIỎ HÀNG</h2>
+            <button onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-content" id="cartContent"></div>
+        <div class="cart-footer">
+            <p>Tổng thanh toán: <span id="sum">0</span></p>
+            <button onclick="goToThanhToan()">MUA NGAY</button>
+        </div>
+    </div>
+
+    <menu>
+        <div class="navbar">
+            <a href="index.html">TRANG CHỦ</a>
+            <a href="gioithieu.html">Giới thiệu</a>
+            <div class="dropdown">
+                <a href="#">Danh mục</a>
+                <div class="dropdown-content-1">
+                    <a href="category.html?category=vay-ngan">Váy ngắn</a>
+                    <a href="category.html?category=vay-dai">Váy dài</a>
+                    <a href="category.html?category=ao">Áo</a>
+                    <a href="category.html?category=chan-vay">Chân váy</a>
+                    <a href="category.html?category=set-bo">Set bộ</a>
+                </div>
+            </div>
+            <a href="spgiamgia.html" class="sale">UP TO 50%</a>
+            <div class="dropdown">
+                <a href="#">Bộ sưu tập</a>
+                <div class="dropdown-content">
+                    <!-- Bộ sưu tập sẽ được thêm động bởi JavaScript -->
+                </div>
+            </div>
+            <a href="tintuc.html">Tin tức</a>
+            <a href="lienhe.html">Liên hệ</a>
+        </div>
+    </menu>
+    </script>
+    <div class="container">
+        <div class="form-section">
+            <form>
+                <h2>GỬI THẮC MẮC CHO CHÚNG TÔI</h2>
+                <p>Nếu bạn có thắc mắc gì, có thể gửi yêu cầu cho chúng tôi, và chúng tôi sẽ liên lạc lại với bạn sớm
+                    nhất có thể.</p>
+                <div class="form-group">
+                    <label for="name">Tên của bạn</label>
+                    <input type="text" id="name" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email của bạn</label>
+                    <input type="email" id="email" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại của bạn</label>
+                    <input type="tel" id="phone" placeholder="">
+                </div>
+                <div class="form-group">
+                    <label for="message">Nội dung</label>
+                    <textarea id="message" rows="5" placeholder=""></textarea>
+                </div>
+                <div class="form-group submit-button">
+                    <button type="submit">Gửi</button>
+                </div>
+            </form>
+        </div>
+        <div class="contact-info">
+            <h2>THÔNG TIN LIÊN HỆ</h2>
+            <p><i>📍</i> <strong>Địa chỉ:</strong> Thành phố Hà Nội</p>
+            <p><i>📞</i> <strong>Điện thoại:</strong> 0987654321</p>
+            <p><i>⏰</i> <strong>Thời gian làm việc:</strong> Thứ 2 đến thứ 6: từ 8h30 đến 18h; <br>Thứ 7: từ 8h30 đến
+                12h00</p>
+            <p><i>✉️</i> <strong>Email:</strong> cot@gmail.com</p>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-column">
+            <h4>Thông tin liên hệ</h4>
+            <p>Địa chỉ: Thành phố Hà Nội</p>
+            <p>Số điện thoại: 0987654321</p>
+            <p>Email: cot@gmail.com</p>
+            <p>&copy; 2025 COT. All rights reserved.</p>
+        </div>
+        <div class="footer-column">
+            <h4>Chính Sách</h4>
+            <p><a href="#">Chính sách vận chuyển</a></p>
+            <p><a href="#">Chính sách đổi trả hàng</a></p>
+            <p><a href="#">Chính sách bảo mật thông tin</a></p>
+            <p><a href="#">Chính sách kiểm hàng</a></p>
+        </div>
+        <div class="footer-column">
+            <h4>Hỗ Trợ Khách Hàng</h4>
+            <p><a href="#">Giới thiệu</a></p>
+            <p><a href="#">Quy định chung</a></p>
+            <p><a href="#">Hệ thống cửa hàng</a></p>
+            <p><a href="#">Kiểm Tra Đơn Hàng</a></p>
+        </div>
+        <div>
+            <div class="social-icons">
+                <a href="#"><img src="icfooter1.webp" alt="Facebook"></a>
+                <a href="#"><img src="icfooter2.webp" alt="Zalo"></a>
+                <a href="#"><img src="icfooter3.webp" alt="TikTok"></a>
+            </div>
+            <div class="contact-icons">
+                <a href="#"><img src="iclienhe1.svg" alt="Zalo Chat"></a>
+                <a href="#"><img src="iclienhe2.svg" alt="Phone"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-logo">COT</p>
+        <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến phong cách hiện đại và thanh lịch cho phái đẹp.</p>
+    </div>
+</body>
+<script>
+    function updateUserAccount() {
+        const user = localStorage.getItem('username'); // Lấy tên người dùng từ localStorage
+        const userAccount = document.getElementById('userAccount');
+        if (user) {
+            userAccount.innerHTML = `<img src="icon3.jpg" alt=""> Xin chào, ${user} <span style="color: red;"></span>`;
+            userAccount.href = '#';
+            userAccount.onclick = function (e) {
+                e.preventDefault();
+                if (confirm('Bạn có muốn đăng xuất?')) {
+                    localStorage.removeItem('username');
+                    localStorage.removeItem('token'); // Xóa token nếu có
+                    window.location.href = 'dangnhap.html';
+                }
+            };
+        } else {
+            userAccount.innerHTML = `<img src="icon3.jpg" alt=""> Tài khoản`;
+            userAccount.href = 'dangnhap.html';
+        }
+    }
+
+    // Gọi hàm khi trang tải
+    window.onload = updateUserAccount;
+</script>
+</html>

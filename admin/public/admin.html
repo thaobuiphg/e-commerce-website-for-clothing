@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TRANG QUẢN TRỊ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tabler-ui@1.0.0-alpha.41/dist/css/tabler.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background-color: #F0EDE6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+    }
+
+    .logo-img {
+      border-radius: 50%;
+      width: 75px;
+      height: 75px;
+      object-fit: cover;
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 28px;
+      color: #333;
+      margin-left: -75px;
+    }
+
+    .admin-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: #555;
+      position: relative;
+    }
+
+    .card {
+      margin-bottom: 2rem;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle !important;
+    }
+
+    .search-input {
+      width: 200px;
+      float: right;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .header-title {
+        font-size: 20px;
+        margin-left: 0;
+      }
+
+      .admin-info {
+        gap: 6px;
+      }
+    }
+
+    #message-icon {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #message-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .dropdown-logout {
+      position: relative;
+      display: inline-block;
+    }
+
+    .logout-menu {
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 5px 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      display: none;
+      z-index: 999;
+      min-width: 120px;
+    }
+
+    .logout-menu a {
+      display: block;
+      padding: 8px 12px;
+      text-decoration: none;
+      color: #333;
+      transition: background-color 0.2s;
+    }
+
+    .logout-menu a:hover {
+      background-color: #f0f0f0;
+    }
+
+    .admin-info button {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      position: relative;
+      padding: 0;
+    }
+
+    .admin-info img {
+      width: 24px;
+      height: 24px;
+    }
+
+    #revenueChart {
+      height: 300px !important;
+    }
+
+    .address-details {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <img src="image/logo.jpg" alt="Logo" class="logo-img">
+    <h1 class="header-title">TRANG QUẢN TRỊ</h1>
+    <div class="admin-info">
+      <div><span class="name"></span></div>
+      <!-- Icon tin nhắn
+      <div id="message-icon">
+        <img id="message-img" src="image/mess1.png" alt="Tin nhắn">
+      </div> -->
+      <!-- Dropdown Logout -->
+      <div class="dropdown-logout">
+        <button id="logout-btn" title="Tài khoản">
+          <img src="image/login.png" alt="Menu tài khoản">
+        </button>
+        <div id="logout-menu" class="logout-menu">
+          <a href="login.html">🔒 Đăng xuất</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Thay thế phần Thống kê doanh thu -->
+  <div class="card m-3">
+    <div class="card-header">📊 Thống kê doanh thu</div>
+    <div class="card-body">
+      <div class="d-flex justify-content-between mb-3">
+        <select id="timeFilter" class="form-select w-auto">
+          <option value="day">Theo ngày</option>
+          <option value="month">Theo tháng</option>
+        </select>
+        <select id="paymentFilter" class="form-select w-auto">
+          <option value="">Tất cả</option>
+          <option value="0">Tiền mặt</option>
+          <option value="1">Ngân hàng</option>
+        </select>
+        <button class="btn btn-primary" onclick="updateRevenueChart()">Cập nhật</button>
+      </div>
+      <canvas id="revenueChart"></canvas>
+      <p id="totalStats">📈 Tổng doanh thu: 0 VNĐ</p>
+    </div>
+  </div>
+  <!-- Tabs quản lý -->
+  <ul class="nav nav-tabs px-3" id="adminTabs" role="tablist">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#usersTab">👤 Người dùng</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#productsTab">📦 Sản phẩm</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#ordersTab">🧾 Đơn hàng</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#collectionsTab">🎨 Bộ sưu tập</a></li>
+  </ul>
+  <div class="tab-content pt-4 px-3">
+    <!-- Tab Người dùng -->
+    <div class="tab-pane fade show active" id="usersTab">
+      <div class="d-flex justify-content-between mb-3">
+        <input class="form-control search-input" placeholder="Tìm người dùng..."
+          oninput="searchTable('users', this.value)">
+        <button class="btn btn-primary" onclick="openForm('users')">➕ Thêm người dùng</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="usersTable">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Username</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Thao tác</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Tab Sản phẩm -->
+    <div class="tab-pane fade" id="productsTab">
+      <div class="d-flex justify-content-between mb-3">
+        <input class="form-control search-input" placeholder="🔍 Tìm sản phẩm..."
+          oninput="searchTable('products', this.value)">
+        <button class="btn btn-primary" onclick="openForm('products')">➕ Thêm sản phẩm</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="productsTable">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Giá</th>
+              <th>Ảnh</th>
+              <th>Giá KM</th>
+              <th>Chi tiết</th>
+              <th>ID BST</th>
+              <th>Trạng thái</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Tab Đơn hàng -->
+    <div class="tab-pane fade" id="ordersTab">
+      <div class="d-flex justify-content-between mb-3">
+        <input class="form-control search-input" placeholder="🔍 Tìm đơn hàng..."
+          oninput="searchTable('orders', this.value)">
+        <!-- <button class="btn btn-primary" onclick="openForm('orders')">➕ Thêm đơn hàng</button> -->
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="ordersTable">
+          <thead class="table-dark">
+            <tr>
+              <th>Order ID</th>
+              <th>User ID</th>
+              <th>Tổng tiền</th>
+              <th>Trạng thái</th>
+              <th>Ngày</th>
+              <th>Chi tiết</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Tab Bộ sưu tập -->
+    <div class="tab-pane fade" id="collectionsTab">
+      <div class="d-flex justify-content-between mb-3">
+        <input class="form-control search-input" placeholder="🔍 Tìm bộ sưu tập..."
+          oninput="searchTable('collections', this.value)">
+        <button class="btn btn-primary" onclick="openForm('collections')">➕ Thêm bộ sưu tập</button>
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-striped" id="collectionsTable">
+          <thead class="table-dark">
+            <tr>
+              <th>ID</th>
+              <th>Tên</th>
+              <th>Năm</th>
+              <th>Ảnh</th>
+              <th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <!-- Modal Form -->
+    <div class="modal fade" id="formModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <form id="formContent">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalTitle">Thêm dữ liệu</h5>
+            </div>
+            <div class="modal-body" id="formFields"></div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Lưu</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Script kiểm tra tin nhắn và logout -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tabler-ui@1.0.0-alpha.41/dist/js/tabler.min.js"></script>
+    <script>
+      const API_BASE = 'http://localhost:3000/api';
+      // Hàm convert enum sang text thân thiện
+      function getRoleText(role) {
+        return role === 0 ? 'Customer' : 'Admin';
+      }
+      function getProductStatusText(status) {
+        return status === 0 ? 'Inactive (không bán)' : 'Active (đang bán)';
+      }
+      function getOrderStatusText(status) {
+        const statuses = { 1: 'Đang xử lý', 2: 'Đang giao', 3: 'Đã giao', 4: 'Đã hủy' };
+        return statuses[status] || 'Không xác định';
+      }
+      function getPayMethodText(pay_method) {
+        return Number(pay_method) === 0 ? 'Thanh toán tiền mặt' : 'Thanh toán ngân hàng';
+      }
+      function getTimeText(time) {
+        if (time == 'day') {
+          return 'ngày';
+        } else if (time == 'month') {
+          return 'tháng';
+        }
+      }
+      // Toggle logout menu (giữ nguyên)
+      // Load data
+      window.addEventListener('load', () => {
+        const username = localStorage.getItem('loggedInUser'); // Giả định key là 'loggedInUser'
+        const nameSpan = document.querySelector('.name');
+        if (username) {
+          nameSpan.textContent = username;
+        } else {
+          nameSpan.textContent = 'Khách'; // Mặc định nếu không login
+        }
+      });
+      // Kiểm tra và hiển thị username khi load trang
+      window.addEventListener('load', () => {
+        const username = localStorage.getItem('loggedInUser');
+        const nameSpan = document.querySelector('.name');
+        if (username) {
+          nameSpan.textContent = `Hello, ${username}`;
+          // Load dữ liệu chỉ khi đã login
+          fetchUsers();
+          fetchProducts();
+          fetchOrders();
+          fetchCollections();
+          fetchRevenueData();
+        } else {
+          nameSpan.textContent = 'Đăng nhập';
+          // Redirect về login nếu không login
+          window.location.href = 'login.html';
+        }
+      });
+      // Open form
+      function openForm(type, data = null) {
+        const modal = new bootstrap.Modal(document.getElementById('formModal'));
+        const title = document.getElementById('modalTitle');
+        const fields = document.getElementById('formFields');
+        const form = document.getElementById('formContent');
+        title.textContent = data ? `Sửa ${type}` : `Thêm ${type}`;
+        fields.innerHTML = '';
+        let html = '';
+        if (type === 'users') {
+  html = `
+    <div class="mb-3">
+      <label class="form-label fw-semibold">👤 Tài khoản</label>
+      <input type="text" class="form-control" name="username" 
+             value="${data?.username || ''}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">🔒 Mật khẩu</label>
+      <input type="password" class="form-control" name="password"
+             placeholder="Nhập mật khẩu mới (bỏ trống nếu giữ nguyên)">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">📧 Email</label>
+      <input type="email" class="form-control" name="email"
+             value="${data?.email || ''}">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold d-block">👥 Vai trò</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="role" id="role0" value="0" 
+          ${Number(data?.role ?? 0) === 0 ? 'checked' : ''}>
+        <label class="form-check-label" for="role0">Khách hàng</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="role" id="role1" value="1" 
+          ${Number(data?.role ?? 0) === 1 ? 'checked' : ''}>
+        <label class="form-check-label" for="role1">Người quản trị</label>
+      </div>
+    </div>
+  `;
+}
+ else if (type === 'products') {
+          html = `
+    <div class="mb-3">
+      <label>Tên sản phẩm</label>
+      <input type="text" class="form-control" name="product_name" value="${data?.product_name || ''}" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Giá</label>
+      <input type="number" class="form-control" name="price" value="${data?.price || 0}" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Ảnh sản phẩm</label>
+      <input type="file" class="form-control" name="image" id="imageInput">
+      <p class="mt-2">Ảnh hiện tại:</p>
+      <img id="previewImage" src="${data?.image_url ? `http://localhost:3000${data.image_url}` : 'https://via.placeholder.com/100x100?text=No+Image'}"
+           style="max-width:100px;border-radius:6px;">
+      <small class="text-muted">Để trống nếu không muốn đổi ảnh</small>
+      <input type="hidden" name="image_url" value="${data?.image_url || ''}">
+    </div>
+
+    <div class="mb-3">
+      <label>Giá khuyến mãi</label>
+      <input type="number" class="form-control" name="price_promotion" value="${data?.price_promotion || 0}" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Chi tiết</label>
+      <textarea class="form-control" name="detail">${data?.detail || ''}</textarea>
+    </div>
+
+    <div class="mb-3">
+      <label>ID Bộ sưu tập</label>
+      <input type="number" class="form-control" name="collection_id" value="${data?.collection_id || ''}">
+    </div>
+
+    <div class="mb-3">
+      <label class="d-block">Tình trạng</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st1" value="1" ${Number(data?.status ?? 1) === 1 ? 'checked' : ''}>
+        <label class="form-check-label" for="st1">Đang hoạt động</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st0" value="0" ${Number(data?.status ?? 1) === 0 ? 'checked' : ''}>
+        <label class="form-check-label" for="st0">Hết hàng</label>
+      </div>
+    </div>
+  `;
+        }
+
+
+else if (type === 'orders') {
+  html = `
+    <div class="mb-3">
+      <label class="form-label fw-semibold">👤 User ID</label>
+      <input type="number" class="form-control" name="user_id" value="${data?.user_id || ''}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold">💰 Tổng tiền (VNĐ)</label>
+      <input type="number" class="form-control" name="total_amount" value="${data?.total_amount || 0}" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label fw-semibold d-block">🚚 Trạng thái đơn hàng</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st1" value="1" ${Number(data?.status ?? 1) === 1 ? 'checked' : ''}>
+        <label class="form-check-label" for="st1">Đang xử lý</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st2" value="2" ${Number(data?.status ?? 1) === 2 ? 'checked' : ''}>
+        <label class="form-check-label" for="st2">Đang giao</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st3" value="3" ${Number(data?.status ?? 1) === 3 ? 'checked' : ''}>
+        <label class="form-check-label" for="st3">Đã giao</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="status" id="st4" value="4" ${Number(data?.status ?? 1) === 4 ? 'checked' : ''}>
+        <label class="form-check-label" for="st4">Đã hủy</label>
+      </div>
+    </div>
+  `;
+}
+ else if (type === 'orderdetails') {
+          html = `
+        <div class="mb-3"><label>Order ID</label><input type="number" class="form-control" name="order_id" value="${data?.order_id || ''}" required></div>
+        <div class="mb-3"><label>Product ID</label><input type="number" class="form-control" name="product_id" value="${data?.product_id || ''}" required></div>
+        <div class="mb-3"><label>Số lượng</label><input type="number" class="form-control" name="quantity" value="${data?.quantity || 1}" required></div>
+        <div class="mb-3"><label>Giá đơn vị</label><input type="number" class="form-control" name="unit_price" value="${data?.unit_price || 0}" required></div>
+      <label class="form-label fw-semibold d-block">Phương thức thanh toán</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="pay" id="pt1" value="0" ${Number(data?.pay_method ?? 0) === 0 ? 'checked' : ''}>
+        <label class="form-check-label" for="pt1">Thanh toán tiền mặt</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="pay" id="pt2" value="1" ${Number(data?.pay_method ?? 1) === 1 ? 'checked' : ''}>
+        <label class="form-check-label" for="pt2">Thanh toán ngân hàng</label>
+      </div>
+    </div>
+      `;
+        } else if (type === 'collections') {
+          html = `
+        <div class="mb-3"><label>Tên bộ sưu tập</label><input type="text" class="form-control" name="collection_name" value="${data?.collection_name || ''}" required></div>
+        <div class="mb-3"><label>Năm ra mắt</label><input type="text" class="form-control" name="year_launch" value="${data?.year_launch || ''}"></div>
+        <div class="mb-3">
+          <label>Ảnh bộ sưu tập</label>
+          <input type="file" class="form-control" name="image" id="imageInputBST">
+          <p class="mt-2">Ảnh hiện tại:</p>
+          <img id="previewImageBST" src="${data?.image_url ? `http://localhost:3000${data.image_url}` : 'https://via.placeholder.com/100x100?text=No+Image'}"
+              style="max-width:100px;border-radius:6px;">
+          <small class="text-muted">Để trống nếu không muốn đổi ảnh</small>
+          <input type="hidden" name="image_url" value="${data?.image_url || ''}">
+        </div>
+      `;
+        }
+        fields.innerHTML = html;
+        if (type === 'products') {
+          const fileInput = fields.querySelector('#imageInput');
+          const previewImg = fields.querySelector('#previewImage');
+          fileInput.addEventListener('change', (e) => {
+            const file = e.target.files?.[0];
+            previewImg.src = file ? URL.createObjectURL(file) : 'https://via.placeholder.com/100x100?text=No+Image';
+          });
+        } else if (type === 'collections') {
+          const fileInput = fields.querySelector('#imageInputBST');
+          const previewImg = fields.querySelector('#previewImageBST');
+          fileInput.addEventListener('change', (e) => {
+            const file = e.target.files?.[0];
+            previewImg.src = file ? URL.createObjectURL(file) : 'https://via.placeholder.com/100x100?text=No+Image';
+          });
+        }
+
+        form.onsubmit = (e) => handleSubmit(e, type, data?.[getIdKey(type)]);
+        modal.show();
+      }
+      function getIdKey(type) {
+        const keys = { users: 'user_id', products: 'product_id', orders: 'order_id', orderdetails: 'order_detail_id', collections: 'collection_id' };
+        return keys[type];
+      }
+      async function handleSubmit(e, type, itemData = null) {
+        e.preventDefault();
+
+        const formData = new FormData(e.target);
+        let payload = Object.fromEntries(formData);
+        delete payload.image;
+
+        // === UPLOAD ẢNH (BẮT BUỘC DÙNG ASYNC/AWAIT) ===
+        const fileInput = e.target.querySelector('input[type="file"]');
+        if (fileInput && fileInput.files[0]) {
+          const uploadForm = new FormData();
+          uploadForm.append('image', fileInput.files[0]);
+
+          try {
+            const uploadRes = await fetch(`${API_BASE}/upload`, {
+              method: 'POST',
+              body: uploadForm
+            });
+
+            if (!uploadRes.ok) throw new Error('Upload thất bại');
+
+            const uploadData = await uploadRes.json();
+            payload.image_url = uploadData.image_url; // BÂY GIỜ MỚI CÓ URL THẬT
+            console.log('Upload thành công, URL:', payload.image_url); // để bạn thấy nó chạy
+          } catch (err) {
+            alert('Upload ảnh lỗi: ' + err.message);
+            return; // DỪNG LUÔN, KHÔNG GỬI GÌ HẾT
+          }
+        }
+
+        // === GỬI DỮ LIỆU CHÍNH (SAU KHI ĐÃ CÓ URL) ===
+        const id = itemData;// ? itemData[getIdKey(type)] : null;
+        const method = id ? 'PUT' : 'POST';
+        const url = `${API_BASE}/${type}${id ? '/' + id : ''}`;
+
+        try {
+          const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          if (!res.ok) {
+            const err = await res.text();
+            alert('Lỗi lưu: ' + err);
+            return;
+          }
+
+          bootstrap.Modal.getInstance('#formModal').hide();
+          alert(id ? 'Sửa thành công!' : 'Thêm thành công!');
+
+          // Refresh bảng
+          if (type === 'products') fetchProducts();
+          else if (type === 'collections') fetchCollections();
+          else if (type === 'users') fetchUsers();
+          else if (type === 'orders') fetchOrders();
+
+          updateRevenueChart();
+
+        } catch (err) {
+          alert('Lỗi mạng: ' + err.message);
+        }
+      }
+      // Delete item
+      async function deleteItem(type, id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa không?')) return;
+        const endpoint = `${API_BASE}/${type}/${id}`;
+        await fetch(endpoint, { method: 'DELETE' });
+        if (type === 'users') fetchUsers();
+        else if (type === 'products') fetchProducts();
+        else if (type === 'orders' || type === 'orderdetails') fetchOrders();
+        else if (type === 'collections') fetchCollections();
+      }
+      function formatCurrency(value) {
+        return Number(value).toLocaleString('vi-VN') + ' VNĐ';
+      }
+
+      // Fetch users 
+      async function fetchUsers() {
+        const res = await fetch(`${API_BASE}/users`);
+        const data = await res.json();
+        const tbody = document.getElementById('usersTable').querySelector('tbody');
+        tbody.innerHTML = data.map(u => `
+    <tr>
+      <td>${u.user_id}</td>
+      <td>${u.username}</td>
+      <td>${u.email}</td>
+      <td>${getRoleText(u.role)}</td>
+      <td>
+        <button class="btn btn-sm btn-warning" onclick='openForm("users", ${JSON.stringify(u)})'>Sửa</button>
+        <button class="btn btn-sm btn-danger" onclick='deleteItem("users", ${u.user_id})'>Xóa</button>
+      </td>
+      <td>
+        <button class="btn btn-sm btn-info" onclick="toggleAddressDetails(${u.user_id}, this)">Xem chi tiết</button>
+        <div class="address-details" id="address-${u.user_id}"></div>
+      </td>
+    </tr>
+  `).join('');
+      }
+
+      // Hàm toggleAddressDetails để hiển thị/ẩn chi tiết địa chỉ
+      async function toggleAddressDetails(userId, btn) {
+        const addressDiv = document.getElementById(`address-${userId}`);
+        if (addressDiv.style.display === 'none' || addressDiv.style.display === '') {
+          try {
+            const response = await fetch(`${API_BASE}/addresses/${userId}`);
+            if (response.ok) {
+              const addressData = await response.json();
+              addressDiv.innerHTML = `
+                <p><strong>Địa chỉ:</strong> ${addressData.address_line || 'Chưa có'}</p>
+                <p><strong>Thành phố:</strong> ${addressData.city || 'Chưa có'}</p>
+                <p><strong>Quận/Huyện:</strong> ${addressData.district || 'Chưa có'}</p>
+                <p><strong>Số điện thoại:</strong> ${addressData.phone || 'Chưa có'}</p>
+              `;
+              addressDiv.style.display = 'block';
+              btn.textContent = 'Ẩn chi tiết';
+            } else {
+              addressDiv.innerHTML = '<p>Không tìm thấy địa chỉ.</p>';
+              addressDiv.style.display = 'block';
+              btn.textContent = 'Ẩn chi tiết';
+            }
+          } catch (error) {
+            addressDiv.innerHTML = '<p>Lỗi khi tải địa chỉ.</p>';
+            addressDiv.style.display = 'block';
+            btn.textContent = 'Ẩn chi tiết';
+          }
+        } else {
+          addressDiv.style.display = 'none';
+          btn.textContent = 'Xem chi tiết';
+        }
+      }
+
+      // Fetch products (thêm ảnh)
+      async function fetchProducts() {
+        const res = await fetch(`${API_BASE}/products`);
+        const data = await res.json();
+        const tbody = document.getElementById('productsTable').querySelector('tbody');
+        tbody.innerHTML = data.map(p => `
+    <tr>
+      <td>${p.product_id}</td>
+      <td>${p.product_name}</td>
+      <td>${formatCurrency(p.price)}</td>
+      <td><img src="${p.image_url}" alt="${p.product_name}" style="max-width: 100px; max-height: 100px;"></td>
+      <td>${formatCurrency(p.price_promotion)}</td>
+      <td>${p.detail}</td>
+      <td>${p.collection_id}</td>
+      <td>${getProductStatusText(p.status)}</td>
+      <td>
+        <button class="btn btn-sm btn-warning" onclick='openForm("products", ${JSON.stringify(p)})'>Sửa</button>
+        <button class="btn btn-sm btn-danger" onclick='deleteItem("products", ${p.product_id})'>Xóa</button>
+      </td>
+    </tr>
+  `).join('');
+      }
+        function getStatusColor(status) {
+          switch (status) {
+            case 1: return "#FFA500"; // chờ xử lý
+            case 2: return "#0d6efd"; // đang giao
+            case 3: return "#28a745"; // hoàn thành
+            case 4: return "#dc3545"; // hủy đơn
+            default: return "#000";   // fallback
+          }
+        }
+      async function fetchOrders() {
+        const res = await fetch(`${API_BASE}/orders`);
+        const data = await res.json();
+        const tbody = document.getElementById('ordersTable').querySelector('tbody');
+        tbody.innerHTML = '';
+
+
+  for (let o of data) {
+    try {
+      const detailsRes = await fetch(`${API_BASE}/orderdetails/${o.order_id}`);
+      const details = detailsRes.ok ? await detailsRes.json() : [];
+
+      const totalItems = details.length;
+      const totalQuantity = details.reduce((sum, d) => sum + d.quantity, 0);
+      const orderRevenue = details.reduce((sum, d) => sum + (d.quantity * d.unit_price), 0);
+
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${o.order_id}</td>
+        <td>${o.user_id}</td>
+        <td>${formatCurrency(o.total_amount)}</td>
+        <td>
+        <button class="btn btn-sm btn-status fw-bold"
+                onclick="openStatusModal(${o.order_id}, ${o.status})"
+                style="
+                  border: none;
+                  background: none;
+                  color: ${getStatusColor(o.status)};
+                  text-decoration: underline;
+                  cursor: pointer;
+                ">
+          ${getOrderStatusText(o.status)}
+        </button>
+        </td>
+        <td>${new Date(o.order_date).toLocaleString('vi-VN')}</td>
+        <td>
+          <button class="btn btn-sm btn-info" onclick='toggleDetails(${o.order_id}, this)'>Xem chi tiết</button>
+        </td>
+      `;
+      tbody.appendChild(row);
+
+      // Hàng chi tiết (giữ nguyên)
+      const detailsRow = document.createElement('tr');
+      detailsRow.id = `details-${o.order_id}`;
+      detailsRow.style.display = 'none';
+      detailsRow.innerHTML = `
+        <td colspan="7">
+          <p><strong>Thống kê:</strong> ${totalItems} sản phẩm • ${totalQuantity} món • Doanh thu: ${formatCurrency(orderRevenue)}</p>
+          <table class="table table-sm mt-2">
+            <thead class="table-dark"><tr><th>STT</th><th>Sản phẩm</th><th>SL</th><th>Giá</th><th>Thành tiền</th><th>PTTT</th></tr></thead>
+            <tbody>
+              ${details.map((d, i) => `
+                <tr>
+                  <td>${i+1}</td>
+                  <td>${d.product_id}</td>
+                  <td>${d.quantity}</td>
+                  <td>${formatCurrency(d.unit_price)}</td>
+                  <td>${formatCurrency(d.quantity * d.unit_price)}</td>
+                  <td>${getPayMethodText(d.pay_method)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </td>
+      `;
+      tbody.appendChild(detailsRow);
+    } catch (e) {
+      console.error('Lỗi load chi tiết đơn', o.order_id);
+    }
+  }
+}
+      // Hàm toggleDetails (đảm bảo hoạt động)
+      function toggleDetails(order_id, btn) {
+        const row = document.getElementById(`details-${order_id}`);
+        if (row) {
+          row.style.display = row.style.display === 'none' ? '' : 'none';
+          btn.textContent = row.style.display === 'none' ? 'Xem chi tiết' : 'Ẩn chi tiết';
+        }
+      }
+      // Fetch collections (thêm ảnh)
+      async function fetchCollections() {
+        const res = await fetch(`${API_BASE}/collections`);
+        const data = await res.json();
+        const tbody = document.getElementById('collectionsTable').querySelector('tbody');
+        tbody.innerHTML = data.map(c => `
+    <tr>
+      <td>${c.collection_id}</td>
+      <td>${c.collection_name}</td>
+      <td>${c.year_launch}</td>
+      <td><img src="${c.image_url}" alt="${c.collection_name}" style="max-width: 100px; max-height: 100px;"></td>
+      <td>
+        <button class="btn btn-sm btn-warning" onclick='openForm("collections", ${JSON.stringify(c)})'>Sửa</button>
+        <button class="btn btn-sm btn-danger" onclick='deleteItem("collections", ${c.collection_id})'>Xóa</button>
+      </td>
+    </tr>
+  `).join('');
+      }
+      // Hàm lấy image_url từ product_id (giả định fetch từ Products table)
+      async function getProductImage(productId) {
+        const res = await fetch(`${API_BASE}/products/${productId}`);
+        const product = await res.json();
+        return product && product.image_url ? product.image_url : 'N/A';
+      }
+      // Thêm hàm searchTable vào <script>
+      function searchTable(type, value) {
+        const tableId = `${type}Table`;
+        const table = document.getElementById(tableId);
+        const trs = table.querySelectorAll('tbody tr');
+        const searchTerm = value.toLowerCase();
+        trs.forEach(tr => {
+          if (tr.id && tr.id.startsWith('details-')) return; // Bỏ qua hàng chi tiết
+          const text = tr.textContent.toLowerCase();
+          tr.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+      }
+
+      // Thêm hàm deleteItem vào <script>
+      async function deleteItem(type, id) {
+        if (!confirm('Bạn có chắc chắn muốn xóa không?')) return;
+        const endpoint = `${API_BASE}/${type}/${id}`;
+        await fetch(endpoint, { method: 'DELETE' });
+        if (type === 'users') fetchUsers();
+        else if (type === 'products') fetchProducts();
+        else if (type === 'orders' || type === 'orderdetails') fetchOrders();
+        else if (type === 'collections') fetchCollections();
+      }
+
+      // Thay thế hàm fetchRevenueData và thêm updateRevenueChart
+      let revenueChart; // Để lưu instance chart và destroy khi update
+      async function fetchRevenueData(time = 'day', payment = '') {
+        // Fetch dữ liệu doanh thu
+        let revenueEndpoint = `${API_BASE}/stats/revenue/${time}`;
+        if (payment) revenueEndpoint += `?pay_method=${payment}`;
+        const revenueRes = await fetch(revenueEndpoint);
+        const revenueData = await revenueRes.json();
+
+        // Fetch dữ liệu số đơn hàng
+        let orderCountEndpoint = `${API_BASE}/stats/ordercount/${time}`;
+        if (payment) orderCountEndpoint += `?pay_method=${payment}`;
+        const orderCountRes = await fetch(orderCountEndpoint);
+        const orderCountData = await orderCountRes.json();
+
+        // Fetch tổng doanh thu
+        let totalEndpoint = `${API_BASE}/stats/total`;
+        if (payment) totalEndpoint += `?pay_method=${payment}`;
+        const totalRes = await fetch(totalEndpoint);
+        const totalData = await totalRes.json();
+        document.getElementById('totalStats').textContent = `Tổng doanh thu: ${formatCurrency(totalData.total_revenue)}`;
+
+        // Chuẩn bị dữ liệu cho chart
+        const labels = Object.keys(revenueData);
+        const revenueValues = Object.values(revenueData);
+        const orderCountValues = labels.map(label => orderCountData[label] || 0);
+
+        // Destroy chart cũ nếu tồn tại
+        if (revenueChart) revenueChart.destroy();
+        // Cấu hình chart mới với hai trục y
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        revenueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: `Doanh thu theo ${getTimeText(time)} ${payment ? `(PTTT: ${getPayMethodText(payment)})` : ''}`,
+                data: revenueValues,
+                borderColor: '#FF6384',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                fill: true,
+                tension: 0.1,
+                yAxisID: 'y-revenue'
+              },
+              {
+                label: 'Số đơn hàng',
+                data: orderCountValues,
+                borderColor: '#36A2EB',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+                tension: 0.1,
+                yAxisID: 'y-orders'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: 'index', intersect: false },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    let label = context.dataset.label || '';
+                    let value = context.parsed.y;
+                    if (label.includes('Doanh thu')) {
+                      return `${label}: ${formatCurrency(value)}`;
+                    } else {
+                      return `${label}: ${value} đơn`;
+                    }
+                  }
+                }
+              }
+            },
+            scales: {
+              'y-revenue': {
+                type: 'linear',
+                position: 'left',
+                beginAtZero: true,
+                title: { display: true, text: 'Doanh thu (VNĐ)' },
+                ticks: { callback: value => formatCurrency(value) }
+              },
+              'y-orders': {
+                type: 'linear',
+                position: 'right',
+                beginAtZero: true,
+                title: { display: true, text: 'Số đơn hàng' },
+                grid: { drawOnChartArea: false }, // Không chồng lấp grid với trục trái
+                ticks: {
+                  stepSize: 1, // Bước nhảy là 1 đơn vị
+                  precision: 0 // Không hiển thị số thập phân
+                }
+              },
+              x: { title: { display: true, text: 'Thời gian' } }
+            }
+          }
+        });
+      }
+
+      // Hàm cập nhật chart dựa trên select
+      function updateRevenueChart() {
+        const time = document.getElementById('timeFilter').value;
+        const payment = document.getElementById('paymentFilter').value;
+        fetchRevenueData(time, payment);
+      }
+
+    </script>
+    <script>
+      async function refreshUsers() {
+        try {
+          console.log("Gửi yêu cầu đến:", 'http://localhost:3000/api/users');
+          const response = await fetch('http://localhost:3000/api/users');
+          console.log("Trạng thái phản hồi:", response.status);
+          if (!response.ok) {
+            throw new Error(`Lỗi HTTP! Trạng thái: ${response.status} - ${response.statusText}`);
+          }
+          const users = await response.json();
+          console.log("Dữ liệu nhận được:", users);
+          const table = document.getElementById('usersTable');
+          if (!table) throw new Error('Không tìm thấy bảng usersTable');
+          const tbody = table.querySelector('tbody');
+          if (!tbody) throw new Error('Không tìm thấy tbody trong bảng usersTable');
+          tbody.innerHTML = ''; // Xóa nội dung cũ
+          if (!Array.isArray(users) || users.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6">Không có người dùng nào hoặc dữ liệu không hợp lệ.</td></tr>';
+            return;
+          }
+          users.forEach(user => {
+            if (!user || typeof user !== 'object') {
+              console.warn("Dữ liệu người dùng không hợp lệ, bỏ qua:", user);
+              return;
+            }
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.user_id !== undefined ? user.user_id : 'N/A'}</td>
+                <td>${user.username !== undefined ? user.username : 'N/A'}</td>
+                <td>${user.email !== undefined ? user.email : 'N/A'}</td>
+                <td>${user.role !== undefined ? (user.role === 0 ? 'Customer' : 'Admin') : 'N/A'}</td>
+                <td>
+                    <button class="btn btn-sm btn-warning" onclick='openForm("users", ${JSON.stringify(user)})' >Sửa</button>
+                    <button class="btn btn-sm btn-danger" onclick='deleteItem("users", ${user.user_id !== undefined ? user.user_id : 0})'>Xóa</button>
+                </td>
+                <td>
+                    <button class="btn btn-sm btn-info" onclick="toggleAddressDetails(${user.user_id !== undefined ? user.user_id : 0}, this)">Xem chi tiết</button>
+                    <div class="address-details" id="address-${user.user_id !== undefined ? user.user_id : 0}"></div>
+                </td>
+            `;
+            tbody.appendChild(row);
+          });
+        } catch (error) {
+          console.error('Lỗi khi lấy danh sách người dùng:', error);
+          alert('Không thể tải danh sách người dùng: ' + error.message);
+        }
+      }
+
+      // Gọi lần đầu khi tải trang
+      window.onload = refreshUsers;
+
+      async function deleteUser(userId) {
+        if (confirm('Bạn có chắc muốn xóa người dùng này?')) {
+          try {
+            const response = await fetch(`http://localhost:3000/api/users/${userId}`, {
+              method: 'DELETE'
+            });
+            if (response.ok) {
+              alert('Xóa người dùng thành công');
+              refreshUsers(); // Làm mới danh sách
+            } else {
+              alert('Xóa người dùng thất bại');
+            }
+          } catch (error) {
+            console.error('Lỗi khi xóa người dùng:', error);
+            alert('Lỗi server');
+          }
+        }
+      }
+
+      // ================== MODAL LỊCH SỬ + CẬP NHẬT TRẠNG THÁI (DẠNG BẢNG SIÊU ĐẸP) ==================
+async function openStatusModal(orderId, currentStatus) {
+  try {
+    // Lấy lịch sử trạng thái
+    const res = await fetch(`http://localhost:3000/api/orders/${orderId}/statuses`);
+    const history = await res.json();
+
+    // Tạo bảng lịch sử
+    let tableRows = '';
+    if (history.length === 0) {
+      tableRows = '<tr><td colspan="3" class="text-center text-muted py-3">Chưa có thay đổi trạng thái</td></tr>';
+    } else {
+      history.forEach(h => {
+        const time = new Date(h.time).toLocaleString('vi-VN', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit'
+        });
+        const note = h.note ? h.note : '<span class="text-muted">—</span>';
+        tableRows += `
+          <tr>
+            <td>${time}</td>
+            <td><span class="badge" style="background-color: ${getStatusColor(h.status)}">${getOrderStatusText(h.status)}</span></td>
+            <td>${note}</td>
+          </tr>
+        `;
+      });
+    }
+
+    // HTML Modal đẹp như Shopee Admin
+    const modalHTML = `
+      <div class="modal fade" id="statusHistoryModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content border-0 shadow">
+            <div class="modal-header bg-gradient bg-primary text-white">
+              <h5 class="modal-title fw-bold">
+                Lịch sử trạng thái – Đơn hàng #${orderId}
+              </h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="text-center mb-3">
+                <h5>Trạng thái hiện tại</h5>
+                <span class="badge fs-5 px-4 py-2"
+                      style="background-color: ${getStatusColor(currentStatus)};">
+                    ${getOrderStatusText(currentStatus)}
+                </span>
+              </div>
+
+              <hr>
+
+              <h6 class="fw-bold text-primary mb-3">Lịch sử thay đổi</h6>
+              <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                      <th>Ngày giờ</th>
+                      <th>Trạng thái</th>
+                      <th>Ghi chú</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${tableRows}
+                  </tbody>
+                </table>
+              </div>
+
+              <hr>
+
+              <h6 class="fw-bold text-success">Cập nhật trạng thái mới</h6>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <select id="newOrderStatus" class="form-select form-select-lg">
+                    <option value="1" ${currentStatus==1?'selected':''}>Đang xử lý</option>
+                    <option value="2" ${currentStatus==2?'selected':''}>Đang giao</option>
+                    <option value="3" ${currentStatus==3?'selected':''}>Đã giao</option>
+                    <option value="4" ${currentStatus==4?'selected':''}>Đã hủy</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <input type="text" id="statusNoteInput" class="form-control form-control-lg" placeholder="Ghi chú (không bắt buộc)">
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-success btn-lg px-5" onclick="updateStatusNow(${orderId})">
+                Cập nhật ngay
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    // Xóa modal cũ nếu có
+    document.getElementById('statusHistoryModal')?.remove();
+    document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+    // Hiển thị modal
+    const modal = new bootstrap.Modal('#statusHistoryModal');
+    modal.show();
+
+  } catch (err) {
+    alert('Lỗi: ' + err.message);
+  }
+}
+
+// Hàm cập nhật trạng thái (gọi từ nút trong modal)
+async function updateStatusNow(orderId) {
+  const status = parseInt(document.getElementById('newOrderStatus').value);
+  const note = document.getElementById('statusNoteInput').value.trim() || null;
+
+  try {
+    const res = await fetch(`http://localhost:3000/api/orders/${orderId}/status`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status, note })
+    });
+
+    if (!res.ok) throw new Error('Cập nhật thất bại');
+
+    bootstrap.Modal.getInstance('#statusHistoryModal').hide();
+    alert('Cập nhật trạng thái thành công!');
+    
+    // Reload lại bảng đơn hàng
+    fetchOrders();
+    updateRevenueChart?.();
+  } catch (err) {
+    alert('Lỗi: ' + err.message);
+  }
+}
+
+      // Gọi lần đầu khi tải trang
+      window.onload = refreshUsers;
+    </script>
+    <!-- <script>
+      const hasNewMessage = Math.random() < 0.5; // 👉 đổi thành true nếu có tin nhắn mới
+      const img = document.getElementById("message-img");
+      img.src = hasNewMessage ? "image/mess2.png" : "image/mess1.png";
+      const logoutBtn = document.getElementById('logout-btn');
+      const logoutMenu = document.getElementById('logout-menu');
+      logoutBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        logoutMenu.style.display = logoutMenu.style.display === 'block' ? 'none' : 'block';
+      });
+      document.addEventListener('click', () => {
+        logoutMenu.style.display = 'none';
+      });
+    </script> -->
+</body>
+
+</html>

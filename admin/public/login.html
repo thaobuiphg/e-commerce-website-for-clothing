@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url("image/back.png") no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 40px 30px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #333;
+            font-weight: bold;
+
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 12px 14px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            margin-left: -15px;
+        }
+
+        .login-container input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 6px rgba(102, 126, 234, 0.5);
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .login-container button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .login-container .footer {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #777;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Thêm loading spinner */
+        .loading {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container" id="loginContainer">
+        <h2>ĐĂNG NHẬP ADMIN</h2>
+        <form id="loginForm">
+            <div style="position: relative;">
+                <input type="text" id="username" placeholder="Tên đăng nhập" required />
+                <input type="password" id="password" placeholder="Mật khẩu" required />
+                <div class="loading" id="loading"></div>
+            </div>
+            <button type="submit">Đăng nhập</button>
+        </form>
+        <div class="footer">
+            Chào mừng bạn đến với website thời trang COT
+        </div>
+    </div>
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const loginContainer = document.getElementById("loginContainer");
+        const loading = document.getElementById("loading");
+
+        loginForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Hiển thị loading
+            loading.style.display = "block";
+
+            try {
+                const res = await fetch("http://localhost:3000/api/auth/admin-login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const data = await res.json();
+                console.log("Response status:", res.status); // Debug
+                console.log("Response data:", data); // Debug
+
+                if (res.ok && data.message === "Đăng nhập admin thành công") {
+                    localStorage.setItem('loggedInUser', username);
+                    alert(data.message);
+                    window.location.href = "/admin.html"; // Đảm bảo đường dẫn tuyệt đối
+                } else {
+                    alert(data.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại!");
+                }
+            } catch (error) {
+                console.error("Login error:", error);
+                alert("Lỗi kết nối server. Vui lòng thử lại sau!");
+            } finally {
+                loading.style.display = "none";
+            }
+        });
+    </script>
+</body>
+
+</html>

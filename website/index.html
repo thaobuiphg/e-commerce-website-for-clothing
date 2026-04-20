@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang chủ</title>
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="sp.css">
+    <link rel="stylesheet" href="giohang.css">
+    <link rel="stylesheet" href="menu.css">
+    <link rel="stylesheet" href="footer.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="index.html"><img src="logo.jpg" alt="Logo"></a>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Nhập từ khóa tìm kiếm..." id="searchInput">
+            <button onclick="searchProducts()">Tìm kiếm</button>
+            <div class="search-keywords">
+                Từ khóa:
+                <a href="#" onclick="filterProducts('Chân váy')">Chân váy</a>
+                <a href="#" onclick="filterProducts('Áo')">Áo</a>
+                <a href="#" onclick="filterProducts('Set')">Set</a>
+                <a href="#" onclick="filterProducts('Đầm')">Đầm</a>
+            </div>
+        </div>
+        <div class="user-actions">
+            <a href="" id="userAccount" onclick="goToLogin()"><img src="icon3.jpg" alt=""> Tài khoản</a>
+            <a href="#" class="cart-toggle" onclick="toggleCart()"><img src="icon2.png" alt=""> Giỏ hàng</a>
+        </div>
+    </header>
+
+    <!-- Overlay giỏ -->
+    <div class="cart-overlay" id="cartOverlay">
+        <div class="cart-header">
+            <h2>GIỎ HÀNG</h2>
+            <button onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-content" id="cartContent"></div>
+        <div class="cart-footer">
+            <p>Tổng thanh toán: <span id="sum">0</span></p>
+            <button onclick="goToThanhToan()">MUA NGAY</button>
+        </div>
+    </div>
+
+    <menu>
+        <div class="navbar">
+            <a href="index.html">TRANG CHỦ</a>
+            <a href="gioithieu.html">Giới thiệu</a>
+            <div class="dropdown">
+                <a href="#">Danh mục</a>
+                <div class="dropdown-content-1">
+                    <a href="category.html?category=best-seller">Best seller</a>
+                    <a href="category.html?category=vay-ngan">Váy ngắn</a>
+                    <a href="category.html?category=vay-dai">Váy dài</a>
+                    <a href="category.html?category=ao">Áo</a>
+                    <a href="category.html?category=chan-vay">Chân váy</a>
+                    <a href="category.html?category=set-bo">Set bộ</a>
+                </div>
+            </div>
+            <a href="spgiamgia.html" class="sale">UP TO 50%</a>
+            <div class="dropdown">
+                <a href="#">Bộ sưu tập</a>
+                <div class="dropdown-content">
+                    <!-- Bộ sưu tập sẽ được thêm động bởi JavaScript -->
+                </div>
+            </div>
+            <a href="tintuc.html">Tin tức</a>
+            <a href="lienhe.html">Liên hệ</a>
+        </div>
+    </menu>
+    <div id="carouselExample" class="carousel slide">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="banner/banner.jpg" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="banner/bannerhe.jfif" class="d-block w-100" alt="loi">
+            </div>
+            <div class="carousel-item">
+                <img src="banner/bannerthu.jfif" class="d-block w-100" alt="loi2">
+            </div>
+            <div class="carousel-item">
+                <img src="banner/bannerdong.jfif" class="d-block w-100" alt="loi2">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <section class="tieude">
+        <h2>Best seller🔥</h2>
+        <div class="product-grid" id="bestSellerGrid"></div>
+    </section>
+    <section class="tieude">
+        <h2>Váy ngắn</h2>
+        <div class="product-grid" id="vayNganGrid"></div>
+    </section>
+    <section class="tieude">
+        <h2>Chân váy</h2>
+        <div class="product-grid" id="chanVayGrid"></div>
+    </section>
+    <section class="tieude">
+        <h2>Váy dài</h2>
+        <div class="product-grid" id="vayDaiGrid"></div>
+    </section>
+    <section class="tieude">
+        <h2>Set bộ</h2>
+        <div class="product-grid" id="setBoGrid"></div>
+    </section>
+    <div class="footer">
+        <div class="footer-column">
+            <h4>Thông tin liên hệ</h4>
+            <p>Địa chỉ: Thành phố Hà Nội</p>
+            <p>Số điện thoại: 0987654321</p>
+            <p>Email: cot@gmail.com</p>
+            <p>&copy; 2025 COT. All rights reserved.</p>
+        </div>
+        <div class="footer-column">
+            <h4>Chính Sách</h4>
+            <p><a href="#">Chính sách vận chuyển</a></p>
+            <p><a href="#">Chính sách đổi trả hàng</a></p>
+            <p><a href="#">Chính sách bảo mật thông tin</a></p>
+            <p><a href="#">Chính sách kiểm hàng</a></p>
+        </div>
+        <div class="footer-column">
+            <h4>Hỗ Trợ Khách Hàng</h4>
+            <p><a href="#">Giới thiệu</a></p>
+            <p><a href="#">Quy định chung</a></p>
+            <p><a href="#">Hệ thống cửa hàng</a></p>
+            <p><a href="#">Kiểm Tra Đơn Hàng</a></p>
+        </div>
+        <div>
+            <div class="social-icons">
+                <a href="#"><img src="icfooter1.webp" alt="Facebook"></a>
+                <a href="#"><img src="icfooter2.webp" alt="Zalo"></a>
+                <a href="#"><img src="icfooter3.webp" alt="TikTok"></a>
+            </div>
+            <div class="contact-icons">
+                <a href="#"><img src="iclienhe1.svg" alt="Zalo Chat"></a>
+                <a href="#"><img src="iclienhe2.svg" alt="Phone"></a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-logo">COT</p>
+        <p>Thương hiệu thời trang hàng đầu Việt Nam, mang đến phong cách hiện đại và thanh lịch cho phái đẹp.</p>
+    </div>
+    <!--Thêm -->
+    <!-- <section class="home-section">
+  <h2>Best seller 🔥</h2>
+  <div class="product-grid" id="bestSellerGrid"></div> -->
+</section>
+
+<!-- các section khác -->
+
+<!-- đặt script CUỐI body -->
+<script src="main.js?v=3" defer></script>
+<!-- Fallback inline: render Best seller ngay cả khi main.js không chạy -->
+<script>
+(async () => {
+  try {
+    const r = await fetch('http://localhost:3000/api/products');
+    const all = await r.json();
+    const top8 = all
+      .map(p => ({ ...p, _d: Number(p.price) - Number(p.price_promotion || p.price) }))
+      .sort((a,b) => b._d - a._d)
+      .slice(0, 8);
+    // const fix = s => {
+    //   if (!s) return '';
+    //   s = String(s).replace(/\\/g,'/').replace(/^img\//i,'image/').replace(/^images\//i,'image/');
+    //   if (!/^image\//i.test(s) && /^(ao|aokieu|vayngan|vaydai|chanvay|setbo)\//i.test(s)) s = 'image/' + s;
+    //   return 'http://localhost:z/' + s;
+    // };
+    const fix = (s) => {
+  if (!s) return "";
+
+  s = String(s).replace(/\\/g, "/"); // Chuẩn hóa slash
+
+  // Trường hợp DB chỉ lưu tên file (vd: "img123.png")
+  if (!s.includes("/")) {
+    return "http://localhost:3000/uploads/" + s;
+  }
+
+  // Nếu s đã có thư mục Ao/, VayNgan/, ChanVay/...
+  const catFolders = [
+    "Ao", "AoKieu", "ChanVay", "VayNgan",
+    "VayDai", "SetBo", "Collections", "bst", "vay"
+  ];
+
+  const firstPart = s.split("/")[0];
+
+  // Nếu đúng thư mục danh mục → ảnh tĩnh
+  if (catFolders.includes(firstPart)) {
+    return "http://localhost:3000/image/" + s;
+  }
+
+  // Nếu chuỗi chứa uploads → ảnh upload
+  if (s.startsWith("uploads/")) {
+    return "http://localhost:3000/" + s;
+  }
+
+  // Nếu đã có "image/" sẵn
+  if (s.startsWith("image/")) {
+    return "http://localhost:3000/" + s;
+  }
+
+  // fallback cuối cùng: coi như ảnh upload
+  return "http://localhost:3000/uploads/" + s;
+};
+
+    document.getElementById('bestSellerGrid').innerHTML = top8.map(p => `
+      <div class="product-card">
+        <div class="product-thumb">
+          <img loading="lazy" src="${fix(p.image_url)}"
+               onerror="this.onerror=null;this.src='http://localhost:3000/image/placeholder.png'">
+        </div>
+        <h3 class="product-name">${p.product_name}</h3>
+        <p class="price">
+          ${
+            Number(p.price) === Number(p.price_promotion)
+              ? `<span class="price-promotion">${Number(p.price).toLocaleString('vi-VN')}đ</span>`
+              : `<span class="price-promotion">${Number(p.price_promotion).toLocaleString('vi-VN')}đ</span>
+                 <span class="price-original">${Number(p.price).toLocaleString('vi-VN')}đ</span>`
+          }
+        </p>
+      </div>
+    `).join('');
+  } catch (e) { console.error('inline best-seller fail', e); }
+})();
+</script>
+    <script src="giohang.js"></script>
+    <script src="main.js"></script>
+    <script src="search.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    gap: 40px;
+}
+
+.product-image {
+    flex: 1;
+}
+
+.product-image img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.product-image .label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #28a745;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.product-details {
+    flex: 1;
+}
+
+.product-details h1 {
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: #222;
+}
+
+.product-details .info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.product-details .price {
+    font-size: 24px;
+    color: #ff6200;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.product-details .promotion {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.product-details .promotion h4 {
+    font-size: 16px;
+    color: #ff6200;
+    margin: 0 0 10px;
+}
+
+.product-details .promotion ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+}
+
+.product-details .promotion ul li {
+    margin-bottom: 5px;
+}
+
+.product-details .promotion ul li::before {
+    content: "•";
+    color: #ff6200;
+    margin-right: 5px;
+}
+
+.size-selection {
+    margin-bottom: 20px;
+    /* tạo khoảng cách giữa size và số lượng */
+}
+
+.size-buttons {
+    display: flex;
+    gap: 10px;
+    /* tạo khoảng cách giữa các nút size */
+    margin-top: 8px;
+}
+
+.size-buttons label {
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+    transition: all 0.2s ease;
+    background-color: #fff;
+    /* thêm nền trắng để tách biệt */
+}
+
+.size-buttons input[type="radio"] {
+    display: none;
+}
+
+.size-buttons label:hover {
+    background-color: #f5f5f5;
+}
+
+.size-buttons input[type="radio"]:checked+label {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+}
+
+.size-buttons input[disabled]+label {
+    background-color: #f0f0f0;
+    color: #aaa;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.product-details .quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.product-details .quantity button {
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.product-details .quantity input {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.product-details .actions {
+    display: flex;
+    gap: 10px;
+}
+
+.product-details .actions button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.product-details .actions .add-to-cart {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.product-details .actions .buy-now {
+    background-color: #ff6200;
+    color: #fff;
+}
+
+.product-details .contact {
+    font-size: 14px;
+    color: #666;
+    margin-top: 10px;
+}
+
+.a1 {
+    text-decoration: none;
+    color: black;
+}
+
+.mb3 {
+    margin: 80px;
+}
+
+.size-option input[type="radio"] {
+    display: none;
+}
+
+.size-option label {
+    border: 1px solid #ccc;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-right: 8px;
+    user-select: none;
+}
+
+.size-option input[type="radio"]:checked+label {
+    background: #0d6efd;
+    color: #fff;
+    border-color: #0d6efd;
+}
+
